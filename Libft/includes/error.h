@@ -1,0 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/19 10:45:50 by eblondee          #+#    #+#             */
+/*   Updated: 2025/11/19 10:45:53 by eblondee         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef ERROR_H
+# define ERROR_H
+
+int	ft_print_error(char *str);
+int	ft_is_unsigned_int(char *num);
+int	ft_is_int(char *num);
+
+#endif
