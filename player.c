@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:03:40 by eblondee          #+#    #+#             */
-/*   Updated: 2025/11/21 17:01:34 by eblondee         ###   ########.fr       */
+/*   Updated: 2025/11/24 13:28:02 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static bool	ft_move(int **map, t_player *player, int move[2]);
 static void	ft_check_death(int **map, t_player *player);
+
+extern inline bool ft_is_within_bound(int x, int y);
 
 // TODO Finish it
 void ft_play(t_player *player)
@@ -39,10 +41,13 @@ void ft_play(t_player *player)
 
 static void	ft_check_death(int **map, t_player *player)
 {
-	int	enemies_count;
+	int	*enemies_count;
 	int	y_to_check;
 	int	x_to_check;
 
+	// TODO malloc it
+	// make it static and reallocating it only when neccessary ??
+	enemies_count = NULL;	
 	for (int y = -1; y <= 1; y++)
 	{
 		for (int x = -1; x <= 1; x++)
@@ -57,15 +62,14 @@ static void	ft_check_death(int **map, t_player *player)
 				|| (unsigned int) x_to_check >= MAP_SIZE)
 				continue;
 
-			// ATTENTION NE MARCHE PAS
-			// CAR FAUT CHECKER L'ÉQUIPE ENTOURANTE
 			if (map[y_to_check][x_to_check] != 0
 					&& map[y_to_check][x_to_check] != player->team)
-				enemies_count++;
+				enemies_count[map[y_to_check][x_to_check]]++;
 		}
 	}
 
-	if (enemies_count >= 2)
+	// TODO Check in tab
+	if (*enemies_count >= 2)
 		player->alive = false;
 }
 
@@ -77,8 +81,7 @@ static bool	ft_move(int **map, t_player *player, int move[2])
 	next_x = player->x + move[X];
 	next_y = player->y + move[Y];
 
-	/* Check if within map bound */ // Use underflow to check < 0
-	if ((unsigned int) next_x >= MAP_SIZE || (unsigned int) next_y >= MAP_SIZE)
+	if (!ft_is_within_bound(next_x, next_y))
 		return (false);
 
 	/* Check if will not move to an other player */

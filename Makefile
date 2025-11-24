@@ -6,7 +6,7 @@
 #    By: lvignal <lvignal@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/06 15:17:40 by lvignal           #+#    #+#              #
-#    Updated: 2025/11/21 13:56:25 by eblondee         ###   ########.fr        #
+#    Updated: 2025/11/24 12:57:26 by eblondee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@
 EXEC := lem-ipc
 
 SRCS :=	main.c \
+		parsing.c \
 		init.c \
 		player.c \
 
