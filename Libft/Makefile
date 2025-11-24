@@ -10,6 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
+########## --- SRCS --- ##########
 ########## --- LIBFT --- ##########
 SRCS:=	./srcs/libft/ft_isalpha.c \
 		./srcs/libft/ft_isdigit.c \
@@ -63,8 +64,9 @@ SRCS += ./srcs/get_next_line/get_next_line.c \
 SRCS += ./srcs/printf/ft_printf.c \
 		./srcs/printf/ft_printf_utils.c \
 		./srcs/printf/ft_printf_utils_bis.c \
-		./srcs/error/print_error.c \
-		./srcs/error/ft_is.c \
+		
+########## --- ERROR --- ##########
+SRCS +=	./srcs/error/print_error.c \
 
 ########## --- LIBFT_LSTDC --- ##########
 SRCS +=	./srcs/libft_lstdc/ft_create_lstdc.c \
@@ -92,6 +94,8 @@ SRCS += ./srcs/libft_bis/ft_atoll.c \
 		./srcs/libft_bis/ft_tabchar.c \
 		./srcs/libft_bis/ft_splitters.c \
 
+########## --- VAR --- ##########
+
 OBJS := $(SRCS:.c=.o)
 
 NAME := libft.a
@@ -104,19 +108,33 @@ INC := libft.h
 
 CFLAG := -Wall -Wextra -Werror -g -I.$(INC)
 
-%o : %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+########## --- PRINT --- ##########
+
+CR := "\r"$(CLEAR)
+
+CLEAR := "\\033[0K"
+
+BASENAME = `basename $@`
+
+########## --- RULES --- ##########
 
 all:	$(NAME)
 
 $(NAME):	$(OBJS)
 	@ar rcs $(NAME) $(OBJS)
+	@printf $(CR)"\e[1m\e[38;5;74m>>> $(NAME) is created ! <<<\e[0m\n"
+	
+%.o : %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@printf $(CR)"\e[2m\e[38;5;32m>>>\e[0m $(BASENAME)%s \e[2m\e[38;5;32m<<<\e[0m"
 
 clean:
-	$(RM) $(OBJS)
+	@$(RM) $(OBJS)
+	@printf "\e[1m\e[38;5;29m>>> All object files of $(NAME) are cleaned ! <<<\e[0m\n"
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
+	@printf "\e[1m\e[38;5;36m>>> $(NAME) is cleaned ! <<<\e[0m\n"
 
 re:	fclean all
 

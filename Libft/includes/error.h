@@ -14,7 +14,5 @@
 # define ERROR_H
 
 int	ft_print_error(char *str);
-int	ft_is_unsigned_int(char *num);
-int	ft_is_int(char *num);
 
 #endif
