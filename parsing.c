@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 10:29:56 by eblondee          #+#    #+#             */
-/*   Updated: 2025/11/24 13:27:44 by eblondee         ###   ########.fr       */
+/*   Updated: 2025/11/24 14:34:35 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ static bool	ft_is_uint(char *str)
 	if (str == endptr)
 		return (false);
 
+	while (isspace(*endptr))
+		endptr++;
+
 	if (*endptr != '\0')
 		return (false);
 
@@ -40,8 +43,6 @@ static bool	ft_is_uint(char *str)
 
     return (true);
 }
-
-#include <stdio.h>
 
 // TODO pass the shm segment
 bool	ft_parsing(int argc, char **argv)
@@ -67,11 +68,14 @@ bool	ft_parsing(int argc, char **argv)
 
 	unsigned int x;
 	unsigned int y;
+	unsigned int team;
 
 	x = strtoul(argv[argc - 1], NULL, 10);
 	y = strtoul(argv[argc - 2], NULL, 10);
 
-	if (x >= INT_MAX || y >= INT_MAX)
+	team = strtoul(argv[argc - 3], NULL, 10);
+
+	if (x > INT_MAX || y > INT_MAX || (argc == 4 && team > INT_MAX))
 	{
 		ft_print_error("One of the arguments is not an positive Int");
 		return (false);

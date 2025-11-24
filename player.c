@@ -6,48 +6,61 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:03:40 by eblondee          #+#    #+#             */
-/*   Updated: 2025/11/24 13:28:02 by eblondee         ###   ########.fr       */
+/*   Updated: 2025/11/24 15:40:58 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_ipc.h"
 
-static bool	ft_move(int **map, t_player *player, int move[2]);
-static void	ft_check_death(int **map, t_player *player);
+static bool	ft_move(int map[MAP_SIZE][MAP_SIZE], t_player *player, int move[2]);
+static void	ft_check_death(t_shm *shm, t_player *player);
 
 extern inline bool ft_is_within_bound(int x, int y);
 
 // TODO Finish it
 void ft_play(t_player *player)
 {
-	int **map;
+	t_shm *shm;
 	int move[2];
 
-	map = NULL;
+	shm = NULL;
 	while (player->alive)
 	{
 		// lock
-		ft_check_death(map, player);
+		// check game over
+		ft_check_death(shm, player);
 		
 		if (!player->alive)
 			// delock
 			return ;
 
 		// ft_choose_direction
-		ft_move(map, player, move);
+		ft_move(shm->map, player, move);
 		// delock
 	}
 }
 
-static void	ft_check_death(int **map, t_player *player)
+static void	ft_check_death(t_shm *shm, t_player *player)
 {
-	int	*enemies_count;
+	static int	*enemies_count;
+	static int	nb_team;
 	int	y_to_check;
 	int	x_to_check;
 
-	// TODO malloc it
-	// make it static and reallocating it only when neccessary ??
-	enemies_count = NULL;	
+	if (enemies_count == NULL || shm->nb_team != nb_team)
+	{
+		nb_team = shm->nb_team;
+		int *tmp = realloc(enemies_count, sizeof(int) * (nb_team - 1));
+
+		if (tmp == NULL)
+		{
+			free(enemies_count);
+			player->alive = false;
+		}
+		else
+			enemies_count = tmp;
+	}
+
 	for (int y = -1; y <= 1; y++)
 	{
 		for (int x = -1; x <= 1; x++)
@@ -62,18 +75,20 @@ static void	ft_check_death(int **map, t_player *player)
 				|| (unsigned int) x_to_check >= MAP_SIZE)
 				continue;
 
-			if (map[y_to_check][x_to_check] != 0
-					&& map[y_to_check][x_to_check] != player->team)
-				enemies_count[map[y_to_check][x_to_check]]++;
+			if (shm->map[y_to_check][x_to_check] != 0
+					&& shm->map[y_to_check][x_to_check] != player->team)
+				(enemies_count[shm->map[y_to_check][x_to_check]])++;
 		}
 	}
 
-	// TODO Check in tab
-	if (*enemies_count >= 2)
-		player->alive = false;
+	for (int team = 0; team <= nb_team; team++)
+	{
+		if (enemies_count[team] >= 2)
+			player->alive = false;
+	}
 }
 
-static bool	ft_move(int **map, t_player *player, int move[2])
+static bool	ft_move(int map[MAP_SIZE][MAP_SIZE], t_player *player, int move[2])
 {
 	int	next_x;
 	int	next_y;

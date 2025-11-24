@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 13:47:04 by eblondee          #+#    #+#             */
-/*   Updated: 2025/11/24 13:27:34 by eblondee         ###   ########.fr       */
+/*   Updated: 2025/11/24 14:44:34 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@
 
 typedef struct s_shm
 {
-	int	nb_team;
-	int	map[MAP_SIZE][MAP_SIZE];
+	bool	game_over;
+	int		nb_team;
+	int		map[MAP_SIZE][MAP_SIZE];
 } t_shm;
 
 typedef struct s_player
