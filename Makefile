@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lvignal <lvignal@student.42angouleme.fr>   +#+  +:+       +#+         #
+#    By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/04/06 15:17:40 by lvignal           #+#    #+#              #
-#    Updated: 2025/11/24 12:57:26 by eblondee         ###   ########.fr        #
+#    Created: 2025/11/29 18:28:20 by eblondee          #+#    #+#              #
+#    Updated: 2025/11/29 18:28:37 by eblondee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@
 EXEC := lem-ipc
 
 SRCS :=	main.c \
-		parsing.c \
 		init.c \
+		parsing.c \
 		player.c \
 
 OBJS := $(SRCS:.c=.o)

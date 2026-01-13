@@ -6,16 +6,77 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:08:33 by eblondee          #+#    #+#             */
-/*   Updated: 2025/11/24 11:05:55 by eblondee         ###   ########.fr       */
+/*   Updated: 2025/11/30 16:29:19 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_ipc.h"
 
+static void	ft_end(t_player *player, t_shm *shm, sem_t *sem, int id);
+
+// TODO Handle Ctrl-C
 int main(int argc, char **argv)
 {
-	if (ft_parsing(argc, argv))
+	t_player	player;
+	t_shm		*shm;
+	sem_t		*sem;
+	int			id;
+
+	if (!ft_parsing(argc, argv))
 		return (1);
 
+	ft_init_player(&player, argc, argv);
+
+	shm = ft_connect_shm(&player, &id);
+	if (shm == NULL)
+		return (1);
+
+	sem = ft_init_sem(&player);
+	if (sem == SEM_FAILED)
+	{
+		shmdt(shm);
+		if (player.first)
+			shmctl(id, IPC_RMID, NULL);
+		perror("Error : ");
+		return(1);
+	}
+
+	if (player.first)
+		ft_init_shm(shm, sem);
+
+	if (!ft_team_number(&player, shm, sem))
+	{
+		ft_end(&player, shm, sem, id);
+		return (1);
+	}
+
+	if (player.first)
+	{
+		while (1)
+		{
+			sem_wait(sem);
+			printf("%d\n", shm->nb_team);
+			if (shm->nb_team == 5)
+			{
+				sem_post(sem);
+				break;
+			}
+			sem_post(sem);
+		}
+	}
+
+	ft_end(&player, shm, sem, id);
+
 	return (0);
+}
+
+static void	ft_end(t_player *player, t_shm *shm, sem_t *sem, int id)
+{
+	shmdt(shm);
+	sem_close(sem);
+	if (player->first)
+	{
+		shmctl(id, IPC_RMID, NULL);
+		sem_unlink("/access");
+	}
 }

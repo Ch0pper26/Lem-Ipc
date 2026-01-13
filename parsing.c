@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 10:29:56 by eblondee          #+#    #+#             */
-/*   Updated: 2025/11/24 14:34:35 by eblondee         ###   ########.fr       */
+/*   Updated: 2025/11/30 16:26:11 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static bool	ft_is_uint(char *str)
 {
-	char *endptr;
-	unsigned long val;
+	char			*endptr;
+	unsigned long	val;
 
 	if (str == NULL || *str == '\0')
 		return (false);
@@ -24,7 +24,7 @@ static bool	ft_is_uint(char *str)
 	if (*str == '-')
 		return (false);
 
-	errno = 0; 
+	errno = 0;
 	val = strtoul(str, &endptr, 10);
 	if (str == endptr)
 		return (false);
@@ -41,10 +41,9 @@ static bool	ft_is_uint(char *str)
 	if (val > UINT_MAX)
 		return (false);
 
-    return (true);
+	return (true);
 }
 
-// TODO pass the shm segment
 bool	ft_parsing(int argc, char **argv)
 {
 	if (argc > 4)
@@ -66,12 +65,12 @@ bool	ft_parsing(int argc, char **argv)
 		return (false);
 	}
 
-	unsigned int x;
-	unsigned int y;
-	unsigned int team;
+	unsigned int	y;
+	unsigned int	x;
+	unsigned int	team;
 
-	x = strtoul(argv[argc - 1], NULL, 10);
-	y = strtoul(argv[argc - 2], NULL, 10);
+	y = strtoul(argv[argc - 1], NULL, 10);
+	x = strtoul(argv[argc - 2], NULL, 10);
 
 	team = strtoul(argv[argc - 3], NULL, 10);
 
@@ -87,7 +86,36 @@ bool	ft_parsing(int argc, char **argv)
 		return (false);
 	}
 
-	// TODO Check team number
+	return (true);
+}
 
+bool	ft_team_number(t_player *player, t_shm *shm, sem_t *sem)
+{
+	sem_wait(sem);
+	if (player->team == -1)
+	{
+		shm->nb_team++;
+		player->team = shm->nb_team;
+	}
+
+	if (shm->nb_team == 0)
+	{
+		if (player->team != 1)
+		{
+			fprintf(stderr, "\x1b[38;5;203mError :\nWrong team number, the only one possible is 1\n\x1b[0m");
+			sem_post(sem);
+			return (false);
+		}
+		else
+			shm->nb_team++;
+	}
+
+	if (player->team > shm->nb_team || player->team <= 0)
+	{
+		fprintf(stderr, "\x1b[38;5;203mError :\nWrong team number, the only one possible are beetwen 1-%d\n\x1b[0m", shm->nb_team);
+		sem_post(sem);
+		return (false);
+	}
+	sem_post(sem);
 	return (true);
 }
