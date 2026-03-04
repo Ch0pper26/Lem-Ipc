@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 13:47:04 by eblondee          #+#    #+#             */
-/*   Updated: 2025/11/30 16:15:53 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:14:15 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 /* *** *** *** --- INCUDES --- *** *** *** */
 
 # include "Libft/ashes.h"
+
 # include <ctype.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <semaphore.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <sys/ipc.h>

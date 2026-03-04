@@ -6,15 +6,17 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:08:33 by eblondee          #+#    #+#             */
-/*   Updated: 2025/11/30 16:29:19 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:17:32 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_ipc.h"
 
-static void	ft_end(t_player *player, t_shm *shm, sem_t *sem, int id);
+bool	g_stop_by_signal = false;
 
-// TODO Handle Ctrl-C
+static void	ft_end(t_player *player, t_shm *shm, sem_t *sem, int id);
+static void ft_handle_signal(int sig);
+
 int main(int argc, char **argv)
 {
 	t_player	player;
@@ -24,6 +26,9 @@ int main(int argc, char **argv)
 
 	if (!ft_parsing(argc, argv))
 		return (1);
+
+	signal(SIGINT, ft_handle_signal);
+	signal(SIGQUIT, ft_handle_signal);
 
 	ft_init_player(&player, argc, argv);
 
@@ -54,6 +59,8 @@ int main(int argc, char **argv)
 	{
 		while (1)
 		{
+			if (g_stop_by_signal)
+				break;
 			sem_wait(sem);
 			printf("%d\n", shm->nb_team);
 			if (shm->nb_team == 5)
@@ -79,4 +86,10 @@ static void	ft_end(t_player *player, t_shm *shm, sem_t *sem, int id)
 		shmctl(id, IPC_RMID, NULL);
 		sem_unlink("/access");
 	}
+}
+
+static void ft_handle_signal(int sig)
+{
+	(void) sig;
+	g_stop_by_signal = true;
 }
