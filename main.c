@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:08:33 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/04 13:17:32 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/04 16:43:35 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ bool	g_stop_by_signal = false;
 static void	ft_end(t_player *player, t_shm *shm, sem_t *sem, int id);
 static void ft_handle_signal(int sig);
 
+// TODO Maybe change display player by sending no argument or display argument
 int main(int argc, char **argv)
 {
 	t_player	player;
