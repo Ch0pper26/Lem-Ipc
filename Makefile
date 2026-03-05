@@ -6,7 +6,7 @@
 #    By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/29 18:28:20 by eblondee          #+#    #+#              #
-#    Updated: 2025/11/29 18:28:37 by eblondee         ###   ########.fr        #
+#    Updated: 2026/03/05 12:50:11 by eblondee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS :=	main.c \
 		init.c \
 		parsing.c \
 		player.c \
+		term_display.c \
 
 OBJS := $(SRCS:.c=.o)
 

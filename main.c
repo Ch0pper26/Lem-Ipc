@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:08:33 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/04 16:43:35 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/05 12:58:04 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,11 @@ int main(int argc, char **argv)
 		{
 			if (g_stop_by_signal)
 				break;
-			sem_wait(sem);
-			printf("%d\n", shm->nb_team);
-			if (shm->nb_team == 5)
-			{
-				sem_post(sem);
-				break;
-			}
-			sem_post(sem);
+			ft_print_game_board(shm, sem);
 		}
 	}
 
+	ft_play(&player, shm, sem);
 	ft_end(&player, shm, sem, id);
 
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 13:47:04 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/04 13:14:15 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/05 13:07:29 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 /* *** *** *** --- DEFINES --- *** *** *** */
 
 #ifndef MAP_SIZE
-# define MAP_SIZE 30
+# define MAP_SIZE 20
 #endif
 
 # define LEFT -1
@@ -74,6 +74,9 @@ void	ft_init_player(t_player *player, int argc, char **argv);
 void	ft_init_shm(t_shm *shm, sem_t *sem);
 t_shm	*ft_connect_shm(t_player *player, int *id);
 sem_t	*ft_init_sem(t_player *player);
+
+/* term_display.c */
+void	ft_print_game_board(t_shm *shm, sem_t *sem);
 
 /* player.c */
 
