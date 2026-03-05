@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 10:29:56 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/05 14:47:37 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:15:27 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ bool	ft_parsing(int argc, char **argv)
 	x = strtoul(argv[argc - 2], NULL, 10);
 
 	team = strtoul(argv[argc - 3], NULL, 10);
-
 	if (x > INT_MAX || y > INT_MAX || (argc == 4 && team > INT_MAX))
 	{
 		ft_print_error("One of the arguments is not an positive Int");

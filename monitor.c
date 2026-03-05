@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 13:24:36 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/05 14:35:57 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:14:42 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int	ft_monitor(void)
 
 	sem = sem_open("/access", O_CREAT, 0666, 1);
 	if (sem == SEM_FAILED)
-	{	
+	{
 		perror("Error sem_open");
 		shmdt(shm);
 		shmctl(id, IPC_RMID, NULL);
-		return(1);
+		return (1);
 	}
 
 	ft_init_shm(shm, sem);
@@ -93,14 +93,12 @@ static void	ft_init_shm(t_shm *shm, sem_t *sem)
 	for (int y = 0; y <= MAP_SIZE; y++)
 	{
 		for (int x = 0; x <= MAP_SIZE; x++)
-		{
 			shm->map[y][x] = 0;
-		}
 	}
 	sem_post(sem);
 }
 
-static void ft_handle_signal(int sig)
+static void	ft_handle_signal(int sig)
 {
 	(void) sig;
 	g_stop_by_signal = true;

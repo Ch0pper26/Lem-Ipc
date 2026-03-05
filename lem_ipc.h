@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 13:47:04 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/05 14:36:55 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:11:35 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ enum { X, Y };
 /* *** *** *** --- FUNCTIONS --- *** *** *** */
 
 /* monitor.c */
-int	ft_monitor(void);
+int		ft_monitor(void);
 
 /* parsing.c */
 

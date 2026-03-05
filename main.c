@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:08:33 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/05 14:36:43 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:13:00 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	ft_end(t_shm *shm, sem_t *sem);
 
-// TODO Maybe change display player by sending no argument or display argument
-int main(int argc, char **argv)
+// TODO Maybe add color team in parameter
+int	main(int argc, char **argv)
 {
 	t_player	player;
 	t_shm		*shm;
@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 	{
 		perror("Error sem_open");
 		shmdt(shm);
-		return(1);
+		return (1);
 	}
 
 	if (!ft_team_number(&player, shm, sem))
