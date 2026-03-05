@@ -6,13 +6,12 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:03:40 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/05 13:00:58 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/05 14:49:02 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_ipc.h"
 
-static void ft_start(t_player *player, t_shm *shm, sem_t *sem);
 //static bool	ft_move(int map[MAP_SIZE][MAP_SIZE], t_player *player, int move[2]);
 //static void	ft_check_death(t_shm *shm, t_player *player);
 extern inline bool	ft_is_within_bound(int x, int y);
@@ -23,7 +22,10 @@ void	ft_play(t_player *player, t_shm *shm, sem_t *sem)
 {
 	//int		move[2];
 
-	ft_start(player, shm, sem);
+	sem_wait(sem);
+	shm->map[player->y][player->x] = player->team;
+	sem_post(sem);
+
 	while (player->alive)
 	{
 		usleep(50000);
@@ -43,19 +45,6 @@ void	ft_play(t_player *player, t_shm *shm, sem_t *sem)
 		ft_move(shm->map, player, move);
 		sem_post(sem);*/
 	}
-}
-
-static void ft_start(t_player *player, t_shm *shm, sem_t *sem)
-{
-	sem_wait(sem);
-	if (shm->map[player->y][player->x] != 0)
-	{
-		ft_print_error("There is already a player at these coordinates");
-		player->alive = false;
-	}
-	else
-		shm->map[player->y][player->x] = player->team;
-	sem_post(sem);
 }
 
 /*static void	ft_check_death(t_shm *shm, t_player *player)

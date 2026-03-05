@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 10:29:56 by eblondee          #+#    #+#             */
-/*   Updated: 2025/11/30 16:26:11 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/05 14:47:37 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,15 @@ bool	ft_parsing(int argc, char **argv)
 bool	ft_team_number(t_player *player, t_shm *shm, sem_t *sem)
 {
 	sem_wait(sem);
+
+	if (shm->map[player->y][player->x] != 0)
+	{
+		ft_print_error("There is already a player at these coordinates");
+		player->alive = false;
+		sem_post(sem);
+		return (false);
+	}
+
 	if (player->team == -1)
 	{
 		shm->nb_team++;
