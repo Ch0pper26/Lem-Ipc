@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 13:47:04 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/05 13:07:29 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/05 14:36:55 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef struct s_shm
 typedef struct s_player
 {
 	bool	alive;
-	bool	first;
 	int		team;
 	int		x;
 	int		y;
@@ -63,6 +62,9 @@ enum { X, Y };
 
 /* *** *** *** --- FUNCTIONS --- *** *** *** */
 
+/* monitor.c */
+int	ft_monitor(void);
+
 /* parsing.c */
 
 bool	ft_parsing(int argc, char **argv);
@@ -71,9 +73,7 @@ bool	ft_team_number(t_player *player, t_shm *shm, sem_t *sem);
 /* init.c */
 
 void	ft_init_player(t_player *player, int argc, char **argv);
-void	ft_init_shm(t_shm *shm, sem_t *sem);
-t_shm	*ft_connect_shm(t_player *player, int *id);
-sem_t	*ft_init_sem(t_player *player);
+t_shm	*ft_connect_shm(void);
 
 /* term_display.c */
 void	ft_print_game_board(t_shm *shm, sem_t *sem);

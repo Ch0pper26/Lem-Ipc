@@ -6,16 +6,13 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:08:33 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/05 12:58:04 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/05 14:36:43 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_ipc.h"
 
-bool	g_stop_by_signal = false;
-
-static void	ft_end(t_player *player, t_shm *shm, sem_t *sem, int id);
-static void ft_handle_signal(int sig);
+static void	ft_end(t_shm *shm, sem_t *sem);
 
 // TODO Maybe change display player by sending no argument or display argument
 int main(int argc, char **argv)
@@ -23,68 +20,41 @@ int main(int argc, char **argv)
 	t_player	player;
 	t_shm		*shm;
 	sem_t		*sem;
-	int			id;
+
+	if (argc == 1)
+		return (ft_monitor());
 
 	if (!ft_parsing(argc, argv))
 		return (1);
 
-	signal(SIGINT, ft_handle_signal);
-	signal(SIGQUIT, ft_handle_signal);
-
 	ft_init_player(&player, argc, argv);
 
-	shm = ft_connect_shm(&player, &id);
+	shm = ft_connect_shm();
 	if (shm == NULL)
 		return (1);
 
-	sem = ft_init_sem(&player);
+	sem = sem_open("/access", 0);
 	if (sem == SEM_FAILED)
 	{
+		perror("Error sem_open");
 		shmdt(shm);
-		if (player.first)
-			shmctl(id, IPC_RMID, NULL);
-		perror("Error : ");
 		return(1);
 	}
 
-	if (player.first)
-		ft_init_shm(shm, sem);
-
 	if (!ft_team_number(&player, shm, sem))
 	{
-		ft_end(&player, shm, sem, id);
+		ft_end(shm, sem);
 		return (1);
 	}
 
-	if (player.first)
-	{
-		while (1)
-		{
-			if (g_stop_by_signal)
-				break;
-			ft_print_game_board(shm, sem);
-		}
-	}
-
 	ft_play(&player, shm, sem);
-	ft_end(&player, shm, sem, id);
+	ft_end(shm, sem);
 
 	return (0);
 }
 
-static void	ft_end(t_player *player, t_shm *shm, sem_t *sem, int id)
+static void	ft_end(t_shm *shm, sem_t *sem)
 {
 	shmdt(shm);
 	sem_close(sem);
-	if (player->first)
-	{
-		shmctl(id, IPC_RMID, NULL);
-		sem_unlink("/access");
-	}
-}
-
-static void ft_handle_signal(int sig)
-{
-	(void) sig;
-	g_stop_by_signal = true;
 }

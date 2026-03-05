@@ -6,7 +6,7 @@
 #    By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/29 18:28:20 by eblondee          #+#    #+#              #
-#    Updated: 2026/03/05 12:50:11 by eblondee         ###   ########.fr        #
+#    Updated: 2026/03/05 14:00:15 by eblondee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ EXEC := lem-ipc
 
 SRCS :=	main.c \
 		init.c \
+		monitor.c \
 		parsing.c \
 		player.c \
 		term_display.c \
