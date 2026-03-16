@@ -6,14 +6,14 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 13:47:04 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/05 16:11:35 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/16 14:50:52 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IPC_H
 # define LEM_IPC_H
 
-/* *** *** *** --- INCUDES --- *** *** *** */
+/* *** *** *** --- INCLUDES --- *** *** *** */
 
 # include "Libft/ashes.h"
 
@@ -39,7 +39,12 @@
 # define UP -1
 # define DOWN 1
 
-/* *** *** *** --- STRUCTURE --- *** *** *** */
+
+/* *** *** *** --- GLOBALS --- *** *** *** */
+
+extern bool	g_stop_by_signal;
+
+/* *** *** *** --- STRUCTURES --- *** *** *** */
 
 typedef struct s_shm
 {

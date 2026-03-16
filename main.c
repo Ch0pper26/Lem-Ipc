@@ -6,13 +6,16 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:08:33 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/05 16:13:00 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/16 14:50:56 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_ipc.h"
 
+bool	g_stop_by_signal = false;
+
 static void	ft_end(t_shm *shm, sem_t *sem);
+static void	ft_handle_signal(int sig);
 
 // TODO Maybe add color team in parameter
 int	main(int argc, char **argv)
@@ -20,6 +23,9 @@ int	main(int argc, char **argv)
 	t_player	player;
 	t_shm		*shm;
 	sem_t		*sem;
+
+	signal(SIGINT, ft_handle_signal);
+	signal(SIGQUIT, ft_handle_signal);
 
 	if (argc == 1)
 		return (ft_monitor());
@@ -51,6 +57,12 @@ int	main(int argc, char **argv)
 	ft_end(shm, sem);
 
 	return (0);
+}
+
+static void	ft_handle_signal(int sig)
+{
+	(void) sig;
+	g_stop_by_signal = true;
 }
 
 static void	ft_end(t_shm *shm, sem_t *sem)

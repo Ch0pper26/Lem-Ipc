@@ -6,26 +6,20 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 13:24:36 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/05 16:14:42 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/16 14:47:52 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_ipc.h"
 
-bool	g_stop_by_signal = false;
-
 static t_shm	*ft_create_shm(int *id);
 static void		ft_init_shm(t_shm *shm, sem_t *sem);
-static void		ft_handle_signal(int sig);
 
 int	ft_monitor(void)
 {
 	t_shm		*shm;
 	sem_t		*sem;
 	int			id;
-
-	signal(SIGINT, ft_handle_signal);
-	signal(SIGQUIT, ft_handle_signal);
 
 	shm = ft_create_shm(&id);
 	if (shm == NULL)
@@ -96,10 +90,4 @@ static void	ft_init_shm(t_shm *shm, sem_t *sem)
 			shm->map[y][x] = 0;
 	}
 	sem_post(sem);
-}
-
-static void	ft_handle_signal(int sig)
-{
-	(void) sig;
-	g_stop_by_signal = true;
 }

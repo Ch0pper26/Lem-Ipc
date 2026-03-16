@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:03:40 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/16 13:41:30 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/16 14:59:28 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_play(t_player *player, t_shm *shm, sem_t *sem)
 	shm->map[player->y][player->x] = player->team;
 	sem_post(sem);
 
-	while (player->alive)
+	while (!g_stop_by_signal)
 	{
 		sem_wait(sem);
 		ft_check_death(shm, player);
@@ -43,6 +43,10 @@ void	ft_play(t_player *player, t_shm *shm, sem_t *sem)
 		ft_move(shm->map, player, move);*/
 		sem_post(sem);
 	}
+
+	sem_wait(sem);
+	shm->map[player->y][player->x] = 0;
+	sem_post(sem);
 }
 
 // TODO If surround by 3 player from different team ??
