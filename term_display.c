@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 16:20:19 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/05 13:01:38 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/16 16:34:44 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	ft_print_game_board(t_shm *shm, sem_t *sem)
 
 static void	ft_print_map(int map[MAP_SIZE][MAP_SIZE])
 {
-	printf("\033[%dA", MAP_SIZE);
+	ft_printf("\033[H\033[J");
 	for (int i = 0; i < MAP_SIZE; i++)
 	{
-		printf("\r\033[K");
+		ft_printf("\r\033[K");
 		for (int j = 0; j < MAP_SIZE; j++)
-			printf("%d ", map[i][j]);
-		printf("\n");
+			ft_printf("%d ", map[i][j]);
+		ft_printf("\n");
 	}
 }
