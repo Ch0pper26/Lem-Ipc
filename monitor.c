@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 13:24:36 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/16 14:47:52 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/16 16:24:53 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	ft_monitor(void)
 	while (!g_stop_by_signal)
 	{
 		ft_print_game_board(shm, sem);
+		usleep(10000);
 	}
 
 	shmdt(shm);
