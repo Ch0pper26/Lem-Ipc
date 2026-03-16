@@ -6,14 +6,14 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:03:40 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/05 14:49:02 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/16 13:41:30 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_ipc.h"
 
 //static bool	ft_move(int map[MAP_SIZE][MAP_SIZE], t_player *player, int move[2]);
-//static void	ft_check_death(t_shm *shm, t_player *player);
+static void	ft_check_death(t_shm *shm, t_player *player);
 extern inline bool	ft_is_within_bound(int x, int y);
 
 // TODO Win
@@ -28,9 +28,7 @@ void	ft_play(t_player *player, t_shm *shm, sem_t *sem)
 
 	while (player->alive)
 	{
-		usleep(50000);
-		player->alive = false;
-		/*sem_wait(sem);
+		sem_wait(sem);
 		ft_check_death(shm, player);
 		if (!player->alive)
 		{
@@ -39,34 +37,22 @@ void	ft_play(t_player *player, t_shm *shm, sem_t *sem)
 			return ;
 		}
 
-		// ft_choose_direction
+		/*// ft_choose_direction
 		move[X] = 0;
 		move[Y] = 0;
-		ft_move(shm->map, player, move);
-		sem_post(sem);*/
+		ft_move(shm->map, player, move);*/
+		sem_post(sem);
 	}
 }
 
-/*static void	ft_check_death(t_shm *shm, t_player *player)
+// TODO If surround by 3 player from different team ??
+static void	ft_check_death(t_shm *shm, t_player *player)
 {
-	static int	nb_team;
-	static int	*enemies_count;
-	int			y_to_check;
-	int			x_to_check;
+	int	enemies_count[shm->nb_team];
+	int	y_to_check;
+	int	x_to_check;
 
-	if (enemies_count == NULL || shm->nb_team != nb_team)
-	{
-		nb_team = shm->nb_team;
-		int	*tmp = realloc(enemies_count, sizeof(int) * (nb_team - 1));
-
-		if (tmp == NULL)
-		{
-			free(enemies_count);
-			player->alive = false;
-		}
-		else
-			enemies_count = tmp;
-	}
+	ft_memset(enemies_count, 0, sizeof(int) * shm->nb_team);
 
 	for (int y = -1; y <= 1; y++)
 	{
@@ -87,17 +73,12 @@ void	ft_play(t_player *player, t_shm *shm, sem_t *sem)
 		}
 	}
 
-	for (int team = 0; team <= nb_team; team++)
-	{
+	for (int team = 0; team < shm->nb_team; team++)
 		if (enemies_count[team] >= 2)
-		{
 			player->alive = false;
-			free(enemies_count);
-		}
-	}
 }
 
-static bool	ft_move(int map[MAP_SIZE][MAP_SIZE], t_player *player, int move[2])
+/*static bool	ft_move(int map[MAP_SIZE][MAP_SIZE], t_player *player, int move[2])
 {
 	int	next_x;
 	int	next_y;
