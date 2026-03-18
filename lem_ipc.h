@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 13:47:04 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/16 14:50:52 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/18 15:44:01 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,21 @@
 /* *** *** *** --- DEFINES --- *** *** *** */
 
 #ifndef MAP_SIZE
-# define MAP_SIZE 20
+# define MAP_SIZE 25
+#endif
+
+#ifndef MAX_TEAM
+# define MAX_TEAM 230
+#endif
+
+// TODO Put real number
+#ifndef NB_TEAM_TO_PLAY
+# define NB_TEAM_TO_PLAY 2
+#endif
+
+// TODO Put real number
+#ifndef NB_PLAYER_IN_TEAM
+# define NB_PLAYER_IN_TEAM 1
 #endif
 
 # define LEFT -1
@@ -51,6 +65,7 @@ typedef struct s_shm
 	bool	game_over;
 	int		nb_team;
 	int		map[MAP_SIZE][MAP_SIZE];
+	int		teams[MAX_TEAM];
 }	t_shm;
 
 typedef struct s_player
@@ -85,7 +100,7 @@ void	ft_print_game_board(t_shm *shm, sem_t *sem);
 
 /* player.c */
 
-void	ft_play(t_player *player, t_shm *shm, sem_t *sem);
+void	ft_handle_play(t_player *player, t_shm *shm, sem_t *sem);
 
 inline bool	ft_is_within_bound(int x, int y)
 {

@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:08:33 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/16 14:50:56 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/18 15:33:13 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	ft_end(t_shm *shm, sem_t *sem);
 static void	ft_handle_signal(int sig);
 
 // TODO Maybe add color team in parameter
+// TODO Maybe undo lem_ipc display separation
 int	main(int argc, char **argv)
 {
 	t_player	player;
@@ -53,7 +54,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 
-	ft_play(&player, shm, sem);
+	ft_handle_play(&player, shm, sem);
 	ft_end(shm, sem);
 
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: eblondee <eblondee@student.42angoulem      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/24 10:29:56 by eblondee          #+#    #+#             */
-/*   Updated: 2026/03/05 16:15:27 by eblondee         ###   ########.fr       */
+/*   Updated: 2026/03/18 15:52:01 by eblondee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ bool	ft_team_number(t_player *player, t_shm *shm, sem_t *sem)
 		sem_post(sem);
 		return (false);
 	}
+	shm->teams[player->team] += 1;
 	sem_post(sem);
 	return (true);
 }
